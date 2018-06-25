@@ -1,0 +1,62 @@
+Les containers peuvents e connecter à) Redux pour simplement récupérer un state en props
+
+```
+  <Cart
+    products={products}
+    total={total}
+    onCheckoutClicked={() => checkout(products)} />
+
+...
+const mapStateToProps = (state) => ({
+  products: getCartProducts(state),
+  total: getTotal(state)
+})
+
+export default connect(
+  mapStateToProps,
+  { checkout }
+)(CartContainer)
+```
+
+Les données en propos dans les containers peuvent être calculés selon le state des reducers:
+
+```
+    <ProductsList title="Products">
+        {products.map(product =>
+        <ProductItem
+            key={product.id}
+            product={product}
+            onAddToCartClicked={() => addToCart(product.id)} />
+        )}
+    </ProductsList>
+
+    ...
+    const mapStateToProps = state => ({
+        products: getVisibleProducts(state.products)
+    })
+
+    export default connect(
+        mapStateToProps,
+        { addToCart }
+    )(ProductsContainer)
+```
+
+Les actions peuvent être asynchones:
+
+```
+    const fetchPosts = subreddit => dispatch => {
+    dispatch(requestPosts(subreddit))
+    return fetch(`https://www.reddit.com/r/${subreddit}.json`)
+        .then(response => response.json())
+        .then(json => dispatch(receivePosts(subreddit, json)))
+    }
+```
+
+Les actions peuvents avoir n'impor quel payload
+
+```
+    const action = {
+        type: CHANGE_VISIBILITY,
+        visible: false
+    }
+```
