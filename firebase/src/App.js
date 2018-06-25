@@ -11,9 +11,7 @@ class App extends Component {
 
   componentDidMount() {
     /* Create reference to messages in Firebase Database */
-    let personnagesRef = configuration.database().ref();
-    /*.orderByKey()
-      .limitToLast(100);*/
+    let personnagesRef = configuration.database().ref("/");
 
     personnagesRef.on("child_added", snapshot => {
       this.setState({ loaded: true });
@@ -40,7 +38,7 @@ class App extends Component {
   addPersonnage(e) {
     e.preventDefault(); // <- prevent form submit from reloading the page
     /* Send the message to Firebase */
-    const personnage = { nom: this.inputEl.value, created: new Date() };
+    const personnage = { nom: this.inputEl.value };
     configuration
       .database()
       .ref("/")

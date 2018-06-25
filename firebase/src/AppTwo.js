@@ -15,22 +15,23 @@ class AppTwo extends Component {
     base.syncState("/", {
       context: this,
       state: "personnages",
-      asArray: true
+      asArray: true,
+      queries: {
+        orderByChild: "nom",
+        limitToFirst: 5
+      }
     });
   }
   removePersonnage(snapshot) {
-    console.log(snapshot);
-    base.remove(snapshot.key).then(() => {
-      console.log("ok");
-    });
+    base.remove(snapshot.key).then(() => {});
   }
   enablePersonnage(snapshot) {
     base
       .update(`/${snapshot.key}`, {
-        data: { active: true }
+        data: { active: !snapshot.active }
       })
       .then(() => {
-        console.log("okayyy");
+        console.log("Enable snapshot");
       })
       .catch(err => {
         //handle error
